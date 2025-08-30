@@ -38,3 +38,6 @@ _opam/
 # Ide cache file
 .idea/
 .vscode/
+
+# OPAM file
+ft_turing.opam
