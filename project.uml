@@ -1,0 +1,122 @@
+@startuml turing
+
+start
+
+partition Machine initialisation {
+    :set name;
+
+    #palegreen:print header with name;
+
+    partition Check alphabet validity {
+        :set alphabet;
+        repeat :read next alphabet element;
+            if (is element a string of size = 1) then (no)
+                #pink:**alphabet init error:**
+                string size is not 1;
+                kill
+            endif
+        repeat while (is last character) is (no) not (yes)
+
+        :set blank string from alphabet;
+        if (is blank in alphabet ?) then (no)
+            #pink:**alphabet init error**:
+            blank not in alphabet;
+            kill
+        endif
+
+        #palegreen:print Alphabet;
+    }
+
+    partition Check states validity {
+        :set states list;
+        :set initial state;
+        if (state in state list ?) then (no)
+            #pink:**states init error**:
+            state not in state list;
+            kill
+        endif
+
+        :set final state;
+        if (is state a builtin state ?) then (no)
+            if (state in state list ?) then (no)
+            #pink:**states init error**:
+            state not in alphabet;
+            kill
+            endif
+        endif
+    }
+
+    #palegreen:print states list;
+    #palegreen:print initial state;
+    #palegreen:print final states list;
+
+    partition Transition validation {
+        repeat :read transition;
+            if (is transition name in states ?) then (no)
+                #pink:**transition name unknown**;
+                kill
+            endif
+            
+            repeat :read transition state;
+                if (is read character in alphabet ?) then (no)
+                    #pink:**read character unknown**;
+                    kill
+                endif
+                if (is to_state in state list ?) then (no)
+                    #pink:**state unknown**;
+                    kill
+                endif
+                if (is write character in alphabet ?) then (no)
+                    #pink:**write character unknown**;
+                    kill
+                endif
+                if (is action "LEFT" or "RIGHT" ?) then (no)
+                    #pink:**action unknown**;
+                    kill
+                endif
+                #palegreen:print transition state;
+            repeat while (has next transition state ?)  is (yes)
+        repeat while (has next transition ?) is (yes)
+    }
+}
+
+partition Tape init {
+    :set tape;
+    repeat :read next tape character;
+        if (is character in alphabet ?) then (no)
+            #pink:**tape init error**:
+            character not in alphabet;
+        kill
+    endif
+    repeat while (has next character ?) is (yes)
+}
+
+partition State execution {
+    repeat :read next state;
+        if (is state valid ?) then (no)
+            #pink:state error;
+            kill
+        endif
+        :read character;
+        if (character in state table ?) then (no)
+            #pink:character error;
+            kill
+        endif
+        :set next state;
+        :write character;
+
+        if (move direction LEFT && is head on first tape position ?) then (yes)
+            #pink:**cant move head:**
+            Head on first tape position;
+            kill
+        endif
+
+        :move head;
+        #palegreen:print tape;
+        #palegreen:print current transition;
+    repeat while (is end of final state ?) is (no) not (yes)
+}
+
+end
+
+@enduml

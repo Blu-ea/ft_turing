@@ -19,7 +19,7 @@
  (name ft_turing)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml)
+ (depends ocaml ft_turing_lib)
  (tags
   ("add topics" "to describe" your project)))
 

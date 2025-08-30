@@ -1,2 +1,5 @@
 (library
- (name ft_turing))
+ (name ft_turing_lib)
+ (wrapped false)
+ (modules turing_load_machine)
+)
