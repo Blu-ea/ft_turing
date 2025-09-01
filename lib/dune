@@ -1,5 +1,7 @@
 (library
  (name ft_turing_lib)
  (wrapped false)
- (modules turing_load_machine)
+ (libraries ppx_yojson_conv yojson)
+ (preprocess (pps ppx_deriving_yojson))
+ (modules turing_load_machine program_type)
 )
