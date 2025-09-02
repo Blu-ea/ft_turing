@@ -1,5 +1,6 @@
 (executable
  (public_name ft_turing)
  (name main)
+ (modules main parsing_turing info_print)
  (libraries ft_turing_lib)
  (flags (:standard -w a)))
