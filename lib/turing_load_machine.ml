@@ -1,16 +1,11 @@
+open In_channel
 open Program_type
 open FileUtil
 
-let get_program_from_file infile : (program, string) result = 
-  if test Is_file infile == true then
-    try 
-      match Yojson.Safe.from_file infile |> program_of_yojson with
-        | Ok prog -> Ok prog
-        | Error str -> Error ("Invalide Json, missing " ^ String.sub str 21 ((String.length str) - 21))
-    with
-      | Yojson.Json_error _ -> Error("Couln't parse the input file, not an json file")
-      (* | Invalid_argument str -> Error str; *) 
-      | _  -> Error ("Unknow Error")
-
+let get_program_from_file infile : (Program.t, string) result =
+  if test (And (Is_file, Is_readable)) infile then
+    let input = with_open_bin infile input_all in
+    let prog_decripter = Program.jsont in
+    Jsont_bytesrw.decode_string prog_decripter input ~file:infile
   else
-    Error ("File is not found")
+    Error "File not found"
