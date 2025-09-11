@@ -3,5 +3,5 @@
  (wrapped false)
  (libraries ppx_yojson_conv yojson fileutils)
  (preprocess (pps ppx_deriving_yojson))
- (modules turing_load_machine program_type)
+ (modules turing_load_machine program_type program_validation)
 )
