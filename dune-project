@@ -19,7 +19,7 @@
  (name ft_turing)
  (synopsis "A short synopsis")
  (description "A longer description")
- (depends ocaml ppx_yojson_conv fileutils)
+ (depends ocaml fileutils jsont bytesrw)
  (tags
   ("add topics" "to describe" your project)))
 
