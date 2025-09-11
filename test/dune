@@ -1,2 +1,4 @@
-(test
- (name test_ft_turing))
+(tests
+ (names test_ft_turing test_validate_program)
+ (libraries ft_turing_lib alcotest)
+)
