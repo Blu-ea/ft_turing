@@ -17,5 +17,5 @@ let rec check_arg i args =
 
 let parsing (infile:string) (input_string:string) = 
   match get_program_from_file infile with 
-    | Ok prog -> Printf.eprintf "PASS PARSING!\n" 
-    | Error str -> Printf.eprintf "%s\n" str ; exit 1
+    | Ok prog -> Printf.printf "The parsing passed :D\nProgram name: %s\n" prog.name
+    | Error str -> Printf.eprintf "%s\n" str; exit 1
