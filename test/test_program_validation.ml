@@ -9,16 +9,16 @@ end
     Test check_alphabet_format function
 *)
 let test_valid_alphabet_format () =
-    Alcotest.(check (result bool string)) "same" (Ok true) (To_test.check_alphabet_format ["a"; "b"; "c"])
+    Alcotest.(check (result unit string)) "same" (Ok ()) (To_test.check_alphabet_format ["a"; "b"; "c"])
 
 let test_invalid_alphabet_format_empty_alphabet () =
-    Alcotest.(check (result bool string)) "same" (Error "Alphabet is empty") (To_test.check_alphabet_format [])
+    Alcotest.(check (result unit string)) "same" (Error "Alphabet is empty") (To_test.check_alphabet_format [])
 
 let test_invalid_alphabet_format_empty_str () =
-    Alcotest.(check (result bool string)) "same" (Error "Alphabet contains invalid symbol: ") (To_test.check_alphabet_format ["a"; ""; "c"])
+    Alcotest.(check (result unit string)) "same" (Error "Alphabet contains invalid symbol: ") (To_test.check_alphabet_format ["a"; ""; "c"])
 
 let test_invalid_alphabet_format_long_str () =
-    Alcotest.(check (result bool string)) "same" (Error "Alphabet contains invalid symbol: dd") (To_test.check_alphabet_format ["a"; "dd"; "c"])
+    Alcotest.(check (result unit string)) "same" (Error "Alphabet contains invalid symbol: dd") (To_test.check_alphabet_format ["a"; "dd"; "c"])
 
 (*
     Test has_duplicates function

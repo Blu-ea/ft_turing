@@ -1,4 +1,5 @@
 (tests
  (names test_ft_turing test_program_validation)
+ (modules test_ft_turing test_program_validation)
  (libraries ft_turing_lib alcotest)
 )
