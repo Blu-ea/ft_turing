@@ -1,15 +1,21 @@
 (*
-    Check if alphabet is a list of strings, each one of size 1
+    Check if alphabet is not empty and is a list of strings, each one of size 1
     Return Ok if true, Error with message if false
 *)
-let rec check_alphabet_format (alphabet : string list) = 
+let check_alphabet_format (alphabet : string list) = 
     match alphabet with
-    | [] -> Ok true
-    | head::tail ->
-        if String.length head = 1 then
-            check_alphabet_format tail
-        else
-            Error ("Alphabet contains invalid symbol: " ^ head)
+    | [] -> Error "Alphabet is empty"
+    | _ ->
+        let rec check_all_str_size (str_list : string list) =
+            match str_list with
+            | [] -> Ok true
+            | head::tail ->
+                if String.length head = 1 then
+                    check_all_str_size tail
+                else
+                    Error ("Alphabet contains invalid symbol: " ^ head)
+        in
+        check_all_str_size alphabet
 
 
 (* 
