@@ -68,7 +68,6 @@ let test_string_in_list_false_empty_str_in_list () =
 (*
     Test list_in_list function
 *)
-
 let test_list_in_list_true () =
     Alcotest.(check bool) "same bool" true (To_test.list_in_list ["a"; "b"] ["a"; "b"; "c"; "d"])
 
