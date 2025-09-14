@@ -1,7 +1,6 @@
 module To_test = struct
     let check_alphabet_format = Program_validation.check_alphabet_format
     let has_duplicates = Program_validation.has_duplicates
-    let string_in_list = Program_validation.string_in_list
     let list_in_list = Program_validation.list_in_list
     let validate_alphabet = Program_validation.validate_alphabet
     let check_states_names = Program_validation.check_states_names
@@ -46,27 +45,6 @@ let test_has_duplicates_single_element () =
 
 let test_has_duplicates_false_empty_str () =
     Alcotest.(check bool) "same bool" false (To_test.has_duplicates ["a"; ""; "c"; "d"])
-
-(*
-    Test string_in_list function
-*)
-let test_string_in_list_true () =
-    Alcotest.(check bool) "same bool" true (To_test.string_in_list "foobar" ["a"; "b"; "foobar"])
-
-let test_string_in_list_true_empt_string () =
-    Alcotest.(check bool) "same bool" true (To_test.string_in_list "" ["a"; ""; "c"])
-
-let test_string_in_list_false () =
-    Alcotest.(check bool) "same bool" false (To_test.string_in_list "foobar" ["a"; "b"; "c"])
-
-let test_string_in_list_false_empty_list () =
-    Alcotest.(check bool) "same bool" false (To_test.string_in_list "foobar" [])
-
-let test_string_in_list_false_empty_str () =
-    Alcotest.(check bool) "same bool" false (To_test.string_in_list "" ["a"; "b"; "c"])
-
-let test_string_in_list_false_empty_str_in_list () =
-    Alcotest.(check bool) "same bool" false (To_test.string_in_list "foobar" [""; "b"; "c"])
 
 (*
     Test list_in_list function
