@@ -35,11 +35,8 @@ let rec has_duplicates (str_list : string list) =
     Check if all elements of a list are present in a second list
     Return true if all elements are present of list1 are present in list2, false otherwise
 *)
-let rec list_in_list (list1 : string list) (list2 : string list) =
-    match list1 with
-    | [] -> true
-    | head::tail -> if string_in_list head list2 then list_in_list tail list2 else false
-
+let list_in_list (needles : string list) (haystack : string list) =
+    List.for_all (fun needle -> List.mem needle haystack) needles
 
 (*
     Check the validity of the alphabet
@@ -59,27 +56,22 @@ let validate_alphabet (alphabet : string list) =
     Return Ok if the states are valid, Error with message otherwise
 *)
 let check_states_names (states : string list) (initial_state : string) (final_states : string list) =
-    match states with
-    | [] -> Error "States list is empty"
-    | _ ->
-        match final_states with
-        | [] -> Error "Final states list is empty"
-        | _ ->
-            match initial_state with
-            | "" -> Error "Initial state is empty"
-            | _ ->
-                match has_duplicates states with
-                | true -> Error "States contain duplicate names"
-                | false ->
-                    match List.mem initial_state states with
-                    | false -> Error ("Initial state " ^ initial_state ^ " is not in the list of states")
-                    | true ->
-                        match has_duplicates final_states with
-                        | true -> Error "Final states contain duplicate names"
-                        | false ->
-                            match list_in_list final_states states with
-                            | false -> Error "Some final states are not in the list of states"
-                            | true -> Ok ()
+    if List.length states == 0 then
+        Error ("States list is empty")
+    else if List.length final_states == 0 then
+        Error ("Final states list is empty")
+    else if String.length initial_state == 0 then 
+        Error ("Initial state is empty")
+    else if has_duplicates states then 
+        Error ("States contain duplicate names")
+    else if not (List.mem initial_state states) then 
+        Error ("Initial state " ^ initial_state ^ " is not in the list of states")
+    else if has_duplicates final_states then 
+        Error ("Final states contain duplicate names")
+    else if not (list_in_list final_states states) then 
+        Error ("Some final states are not in the list of states")
+    else
+        Ok ()
 
 (*
     Check the validity of a transition
