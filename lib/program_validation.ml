@@ -61,7 +61,7 @@ let validate_alphabet (alphabet : string list) =
     | Error msg -> Error msg
     | Ok () ->
         match has_duplicates alphabet with
-        | false -> Ok true
+        | false -> Ok ()
         | true -> Error "Alphabet contains duplicate symbols"
 
 
@@ -70,18 +70,27 @@ let validate_alphabet (alphabet : string list) =
     Return Ok if the states are valid, Error with message otherwise
 *)
 let check_states_names (states : string list) (initial_state : string) (final_states : string list) =
-    match has_duplicates states with
-    | false -> Error "States contain duplicate names"
-    | true ->
-        match string_in_list initial_state states with
-        | false -> Error "Initial state is not in the list of states"
-        | true ->
-            match has_duplicates final_states with
-            | true -> Error "Final states contain duplicate names"
-            | false ->
-                match list_in_list final_states states with
-                | false -> Error "Some final states are not in the list of states"
-                | true -> Ok ()
+    match states with
+    | [] -> Error "States list is empty"
+    | _ ->
+        match final_states with
+        | [] -> Error "Final states list is empty"
+        | _ ->
+            match initial_state with
+            | "" -> Error "Initial state is empty"
+            | _ ->
+                match has_duplicates states with
+                | true -> Error "States contain duplicate names"
+                | false ->
+                    match string_in_list initial_state states with
+                    | false -> Error ("Initial state " ^ initial_state ^ " is not in the list of states")
+                    | true ->
+                        match has_duplicates final_states with
+                        | true -> Error "Final states contain duplicate names"
+                        | false ->
+                            match list_in_list final_states states with
+                            | false -> Error "Some final states are not in the list of states"
+                            | true -> Ok ()
 
 (*
     Check the validity of a transition
@@ -116,9 +125,13 @@ let check_transition_list (transitions : Program_type.Transition.t list) (states
             check_all_transitions transitions
 
 (*
-    Check the validity of all states in the program
+    Check the validity of all states and transition in the program
     Return Ok if all states are valid, Error with message otherwise
 *)
-let check_program_states (transistion : Program_type.Transitions.t) (states : string list) (alphabet : string list) =
+let check_program_transitions (transistion : Program_type.Transitions.t) (states : string list) (alphabet : string list) =
     let all_transitions = Program_type.Transitions.M.bindings transistion in
-    check_transition_list (List.flatten (List.map snd all_transitions)) states alphabet
+    let keys = List.map fst all_transitions in
+    if not (list_in_list keys states) then
+        Error "A machine state is not in the list of states"
+    else
+        check_transition_list (List.flatten (List.map snd all_transitions)) states alphabet
