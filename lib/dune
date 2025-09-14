@@ -2,5 +2,5 @@
  (name ft_turing_lib)
  (wrapped false)
  (libraries fileutils jsont.bytesrw)
- (modules turing_load_machine program_type)
+ (modules turing_load_machine program_type program_validation)
 )
