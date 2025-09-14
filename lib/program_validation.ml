@@ -31,17 +31,6 @@ let rec has_duplicates (str_list : string list) =
         else
             has_duplicates tail
 
-
-(*
-    Check if a string is in a list of strings
-    Return true if the string is present in the list, false otherwise
-*)
-let rec string_in_list (s : string) (str_list : string list) =
-    match str_list with
-    | [] -> false
-    | head::tail -> if head = s then true else string_in_list s tail
-
-
 (*
     Check if all elements of a list are present in a second list
     Return true if all elements are present of list1 are present in list2, false otherwise
@@ -82,7 +71,7 @@ let check_states_names (states : string list) (initial_state : string) (final_st
                 match has_duplicates states with
                 | true -> Error "States contain duplicate names"
                 | false ->
-                    match string_in_list initial_state states with
+                    match List.mem initial_state states with
                     | false -> Error ("Initial state " ^ initial_state ^ " is not in the list of states")
                     | true ->
                         match has_duplicates final_states with
@@ -97,11 +86,11 @@ let check_states_names (states : string list) (initial_state : string) (final_st
     Return Ok if the transition is valid, Error with message otherwise
 *)
 let check_transition (transition : Program_type.Transition.t) (states : string list) (alphabet : string list) =
-    if string_in_list transition.read alphabet == false then
+    if List.mem transition.read alphabet == false then
         Error ("Transition read symbol " ^ transition.read ^ " is not in the alphabet")
-    else if string_in_list transition.write alphabet == false then
+    else if List.mem transition.write alphabet == false then
         Error ("Transition write symbol " ^ transition.write ^ " is not in the alphabet")
-    else if string_in_list transition.to_state states == false then
+    else if List.mem transition.to_state states == false then
         Error ("Transition to_state " ^ transition.to_state ^ " is not in the list of states")
     else
         Ok ()

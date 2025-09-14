@@ -255,15 +255,6 @@ let () =
                     Alcotest.test_case "has duplicates single element" `Quick test_has_duplicates_single_element;
                     Alcotest.test_case "has duplicates false empty str" `Quick test_has_duplicates_false_empty_str;
                 ]);
-            ("string_in_list",
-                [
-                    Alcotest.test_case "string in list true" `Quick test_string_in_list_true;
-                    Alcotest.test_case "string in list true empty string" `Quick test_string_in_list_true_empt_string;
-                    Alcotest.test_case "string in list false" `Quick test_string_in_list_false;
-                    Alcotest.test_case "string in list false empty list" `Quick test_string_in_list_false_empty_list;
-                    Alcotest.test_case "string in list false empty str" `Quick test_string_in_list_false_empty_str;
-                    Alcotest.test_case "string in list false empty str in list" `Quick test_string_in_list_false_empty_str_in_list;
-                ]);
             ("list_in_list", 
                 [
                     Alcotest.test_case "list in list true" `Quick test_list_in_list_true;
