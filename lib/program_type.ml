@@ -2,6 +2,11 @@ module Action = struct
   type t = RIGHT | LEFT
   let assoc = ["RIGHT", RIGHT; "LEFT", LEFT]
   let jsont = Jsont.enum ~kind:"Action" assoc
+
+  let to_string = function 
+    | RIGHT -> "RIGHT"
+    | LEFT -> "LEFT"
+
 end
 
 module Transition = struct
@@ -26,6 +31,15 @@ module Transition = struct
     |> Jsont.Object.mem "write" Jsont.string ~enc:read
     |> Jsont.Object.mem "action" Action.jsont ~enc:action
     |> Jsont.Object.finish
+
+  let print_info source_state target_transition = 
+    Printf.printf "(%s, %s) -> (%s, %s, %s)\n"
+    source_state
+    target_transition.read 
+    target_transition.to_state 
+    target_transition.write
+    (Action.to_string target_transition.action)
+    
 end
 
 module Transitions = struct
@@ -50,6 +64,8 @@ module Transitions = struct
       ~kind:"Transitions"
       (Jsont.list Transition.jsont)
 
+  let print_states_info (state:string) transitions =
+    List.iter (fun transition -> Transition.print_info state transition) (get state transitions)
 end
 
 module Program = struct 
@@ -87,5 +103,17 @@ module Program = struct
     |> Jsont.Object.mem "transitions" Transitions.jsont ~enc:transitions 
     |> Jsont.Object.finish
 
-  end
+  let print_description program =
+    let print_bold str = Printf.printf "\027[1m%s\027[0m : " str in 
+    let print_list lst = print_string "[ ";List.iter (fun elem -> Printf.printf "%s, "elem) lst; print_endline "]" in
 
+    Printf.printf "\n--- \027[1m%s\027[0m ---\n\n" program.name;
+
+    print_bold "Alphabet"; print_list program.alphabet;
+    print_bold "States  "; print_list program.states;
+    print_bold "Initial "; print_endline program.initial;
+    print_bold "Finals  "; print_list program.finals;
+    print_endline("|>==============================<|");
+    List.iter (fun (state:string) -> Transitions.print_states_info state program.transitions ) program.states;
+    print_endline("|>==============================<|");
+end
