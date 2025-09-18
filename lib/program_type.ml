@@ -103,9 +103,19 @@ module Program = struct
     |> Jsont.Object.mem "transitions" Transitions.jsont ~enc:transitions 
     |> Jsont.Object.finish
 
-  let print_description program =
-    let print_bold str = Printf.printf "\027[1m%s\027[0m : " str in 
-    let print_list lst = print_string "[ ";List.iter (fun elem -> Printf.printf "%s, "elem) lst; print_endline "]" in
+    
+    let print_description program =
+      let print_bold str = Printf.printf "\027[1m%s\027[0m : " str in 
+      let print_list lst =
+        print_string "[ ";
+        (match lst with
+        | [] -> ()
+        | [x] -> Printf.printf "%s" x
+        | head :: tail ->
+            Printf.printf "%s" head;
+            List.iter (fun elem -> Printf.printf ", %s" elem) tail);
+        print_string " ]\n"
+      in
 
     Printf.printf "\n--- \027[1m%s\027[0m ---\n\n" program.name;
 

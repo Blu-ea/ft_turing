@@ -15,6 +15,7 @@ let () =
           match Validate_program.validate_program prog with
           | Error str -> Printf.printf "%s" str; exit 1
           | Ok () -> 
+              Program.print_description prog;
               let tape = Sys.argv.(2) in
               match Run_machine.run_transition_loop prog tape 0 (Program.initial prog) with
               | Error str -> Printf.printf "%s" str; exit 1
