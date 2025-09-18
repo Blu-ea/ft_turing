@@ -27,4 +27,6 @@ let () =
                     Program.print_description prog;
                     match Run_machine.run_transition_loop prog tape 0 (Program.initial prog) with
                     | Error str -> Printf.printf "%s\n" str; exit 1
-                    | Ok final_tape -> exit 0
+                    | Ok final_tape -> 
+                        Printf.printf "[%s]\n" final_tape;
+                        exit 0

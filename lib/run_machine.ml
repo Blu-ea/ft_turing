@@ -7,7 +7,7 @@ let print_tape_with_head (tape : string) (head : int) : unit =
         let first_part = String.sub tape 0 head in
         let head_part = String.get tape head in
         let tail_part = String.sub tape (head + 1) (String.length tape - head - 1) in
-        Printf.printf "[%s<%c>%s] " first_part head_part tail_part
+        Printf.printf "[%s<%c>%s]" first_part head_part tail_part
 
 (*
     Get the transition from a transition list for a given symbol.
@@ -57,6 +57,7 @@ let rec run_transition_loop (program : Program.t) (tape : string) (head : int) (
         | None -> Error "No valid transition found"
         | Some transition ->
             print_tape_with_head extended_tape head;
+            Printf.printf " ";
             Transition.print_info current_state transition;
             match run_transition transition extended_tape head with
             | Error msg -> Error msg
