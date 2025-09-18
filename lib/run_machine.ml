@@ -21,7 +21,6 @@ let get_transition_for_symbol (transitions : Transition.t list) (symbol : string
     Return the new tape, new head position and new state or an error message if any probleme occur.
 *)
 let run_transition (transition : Transition.t) (tape : string) (head : int) =
-        Transition.print_info "curent_state" transition;
         if (head = 0 && transition.action = Action.LEFT) then
             Error "Head moved left out of bounds"
         else 
@@ -54,10 +53,11 @@ let rec run_transition_loop (program : Program.t) (tape : string) (head : int) (
         Ok tape
     else begin
         let extended_tape = extend_tape tape (Program.blank program).[0] head in
-        print_tape_with_head extended_tape head;
         match get_transition_for_symbol (Transitions.get current_state program.transitions) (String.make 1 (String.get tape head)) with
         | None -> Error "No valid transition found"
         | Some transition ->
+            print_tape_with_head extended_tape head;
+            Transition.print_info current_state transition;
             match run_transition transition extended_tape head with
             | Error msg -> Error msg
             | Ok (new_tape, new_head, new_state) ->
