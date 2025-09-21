@@ -15,11 +15,7 @@ let () =
             match Validate_program.validate_program prog with
             | Error str -> Printf.printf "%s\n" str; exit 1
             | Ok () -> 
-                let tape =
-                    if String.length (Sys.argv.(2)) < 20 then
-                        (Sys.argv.(2)) ^ String.make (20 - String.length (Sys.argv.(2))) (Program.blank prog).[0]
-                    else
-                        (Sys.argv.(2))
+                let tape = (Sys.argv.(2))
                 in
                 match Validate_program.validate_tape tape (Program.alphabet prog) with
                 | Error str -> Printf.printf "%s\n" str; exit 1
