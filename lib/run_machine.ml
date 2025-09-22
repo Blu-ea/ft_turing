@@ -33,7 +33,7 @@ let print_centered_tape_with_head (tape : string) (head : int) (blank : string) 
         else
             String.sub tape (head + 1) (length_diff) ^ String.make (10 - length_diff + remain) blank.[0]
     in
-    print_tape_with_head (first_part ^ second_part) new_head;
+    print_tape_with_head (first_part ^ second_part) new_head
 
 (*
     Get the transition from a transition list for a given symbol.
