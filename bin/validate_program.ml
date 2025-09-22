@@ -18,3 +18,16 @@ let validate_program (program : Program.t) =
                 | Error msg -> Error msg
                 | Ok () ->
                     check_program_transitions program.transitions program.states program.alphabet
+
+
+(*
+    Check the validity of the tape
+    Return Ok if the tape is valid, Error with message otherwise
+*)
+let validate_tape (tape : string) (alphabet : string list) =
+    let tape_chars = List.init (String.length tape) (String.get tape) in
+    let tape_strs = List.map (String.make 1) tape_chars in
+    if list_in_list tape_strs alphabet then
+        Ok ()
+    else
+        Error "Tape contains symbols not present in the alphabet"
