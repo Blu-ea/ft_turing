@@ -24,10 +24,9 @@ let validate_program (program : Program.t) =
     Check the validity of the tape
     Return Ok if the tape is valid, Error with message otherwise
 *)
-let validate_tape (tape : string) (alphabet : string list) =
+let validate_tape (tape : string) (alphabet : char list) =
     let tape_chars = List.init (String.length tape) (String.get tape) in
-    let tape_strs = List.map (String.make 1) tape_chars in
-    if list_in_list tape_strs alphabet then
+    if list_in_list tape_chars alphabet then
         Ok ()
     else
         Error "Tape contains symbols not present in the alphabet"

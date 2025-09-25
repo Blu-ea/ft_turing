@@ -17,7 +17,7 @@ let print_tape_with_head (tape : string) (head : int) : unit =
     Print the tape centered on the head position with a target width of 21 characters.
     Fill with blank symbols if necessary.
 *)
-let print_centered_tape_with_head (tape : string) (head : int) (blank : string) : unit =
+let print_centered_tape_with_head (tape : string) (head : int) (blank : char) : unit =
     let tape_lenght = String.length tape in
     let first_part, new_head, remain = 
     if (head <= 10) then
@@ -31,7 +31,7 @@ let print_centered_tape_with_head (tape : string) (head : int) (blank : string) 
         if (length_diff >= target_second_lenght) then
             String.sub tape (head + 1) target_second_lenght
         else
-            String.sub tape (head + 1) (length_diff) ^ String.make (10 - length_diff + remain) blank.[0]
+            String.sub tape (head + 1) (length_diff) ^ String.make (10 - length_diff + remain) blank
     in
     print_tape_with_head (first_part ^ second_part) new_head
 
@@ -39,8 +39,8 @@ let print_centered_tape_with_head (tape : string) (head : int) (blank : string) 
     Get the transition from a transition list for a given symbol.
     Return the found transition or None if there is no transition for the given symbol.
 *)
-let get_transition_for_symbol (transitions : Transition.t list) (symbol : string) =
-    List.find_opt (fun transition -> Transition.read transition = symbol) transitions
+let get_transition_for_symbol (transitions : Transition.t list) (symbol : char) =
+    List.find_opt (fun (transition) -> Transition.read transition = symbol) transitions
 
 (*
     Run a single transition on the tape at the head position.
@@ -50,7 +50,7 @@ let run_transition (transition : Transition.t) (tape : string) (head : int) =
         if (head = 0 && transition.action = Action.LEFT) then
             Error "Head moved left out of bounds"
         else 
-            let new_tape = String.mapi (fun i c -> if i = head then transition.write.[0] else c) tape in
+            let new_tape = String.mapi (fun i c -> if i = head then Transition.write transition else c) tape in
             let new_head = match transition.action with
                 | Action.LEFT -> head - 1
                 | Action.RIGHT -> head + 1
@@ -62,11 +62,8 @@ let run_transition (transition : Transition.t) (tape : string) (head : int) =
     Return the extended tape.
 *)
 let extend_tape (tape : string) (blank : char) (head : int) : string =
-    let lenght = String.length tape in
-    if head < 0 then
-        tape
-    else if head >= lenght then
-        (tape ^ (String.make (head - (lenght - 1)) blank))
+    if head >= String.length tape then
+        (tape ^ String.make 1 blank)
     else
         tape
 
@@ -80,14 +77,14 @@ let rec run_transition_loop (program : Program.t) (tape : string) (head : int) (
     else if List.mem current_state program.finals then
         Ok tape
     else
-        let extended_tape = extend_tape tape (Program.blank program).[0] head in
-        match get_transition_for_symbol (Transitions.get current_state program.transitions) (String.make 1 (String.get extended_tape head)) with
-        | None -> Error "No valid transition found"
+        let tape = extend_tape tape (Program.blank program) head in
+        match get_transition_for_symbol (Transitions.get current_state program.transitions) (String.get tape head) with
+        | None -> Error ("No valid transition found for char <" ^ String.make 1 tape.[head] ^ "> with state " ^ current_state)
         | Some transition ->
-            print_centered_tape_with_head extended_tape head (Program.blank program);
-            Printf.printf " ";
+            print_centered_tape_with_head tape head (Program.blank program);
+            print_char ' ';
             Transition.print_info current_state transition;
-            match run_transition transition extended_tape head with
+            match run_transition transition tape head with
             | Error msg -> Error msg
             | Ok (new_tape, new_head, new_state) ->
                 run_transition_loop program new_tape new_head new_state

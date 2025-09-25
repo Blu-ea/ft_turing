@@ -20,22 +20,22 @@ module Transition = struct
   let make read to_state write action = 
     {read; to_state; write; action}
 (*  ===== Getters ===== *)
-    let read i = i.read
-    let to_state i = i.to_state
-    let write i = i.write
-    let action i = i.action
+  let read i = i.read.[0]
+  let to_state i = i.to_state
+  let write i = i.write.[0]
+  let action i = i.action
 (*  =====        ===== *)
-    let jsont = Jsont.Object.map ~kind:"Transition" make
-    |> Jsont.Object.mem "read" Jsont.string ~enc:read
-    |> Jsont.Object.mem "to_state" Jsont.string ~enc:to_state
-    |> Jsont.Object.mem "write" Jsont.string ~enc:read
-    |> Jsont.Object.mem "action" Action.jsont ~enc:action
+  let jsont = Jsont.Object.map ~kind:"Transition" make
+    |> Jsont.Object.mem "read" Jsont.string
+    |> Jsont.Object.mem "to_state" Jsont.string
+    |> Jsont.Object.mem "write" Jsont.string
+    |> Jsont.Object.mem "action" Action.jsont
     |> Jsont.Object.finish
 
   let print_info source_state target_transition = 
     Printf.printf "(%s, %s) -> (%s, %s, %s)\n"
     source_state
-    target_transition.read 
+    target_transition.read
     target_transition.to_state 
     target_transition.write
     (Action.to_string target_transition.action)
@@ -84,8 +84,8 @@ module Program = struct
     {name; alphabet; blank; states; initial; finals; transitions}
 (*  ===== Getters ===== *)
     let name i = i.name
-  let alphabet i = i.alphabet
-  let blank i = i.blank
+  let alphabet i = List.map (fun str-> str.[0]) i.alphabet
+  let blank i = i.blank.[0]
   let states i = i.states
   let initial i = i.initial
   let finals i = i.finals
@@ -94,13 +94,13 @@ module Program = struct
 
   let jsont = 
     Jsont.Object.map ~kind:"Prog" make
-    |> Jsont.Object.mem "name" Jsont.string ~enc:name 
-    |> Jsont.Object.mem "alphabet" Jsont.(list string) ~enc:alphabet 
-    |> Jsont.Object.mem "blank" Jsont.string ~enc:blank 
-    |> Jsont.Object.mem "states" Jsont.(list string) ~enc:states 
-    |> Jsont.Object.mem "initial" Jsont.string ~enc:initial 
-    |> Jsont.Object.mem "finals" Jsont.(list string) ~enc:finals 
-    |> Jsont.Object.mem "transitions" Transitions.jsont ~enc:transitions 
+    |> Jsont.Object.mem "name" Jsont.string
+    |> Jsont.Object.mem "alphabet" Jsont.(list string)
+    |> Jsont.Object.mem "blank" Jsont.string
+    |> Jsont.Object.mem "states" Jsont.(list string)
+    |> Jsont.Object.mem "initial" Jsont.string
+    |> Jsont.Object.mem "finals" Jsont.(list string)
+    |> Jsont.Object.mem "transitions" Transitions.jsont
     |> Jsont.Object.finish
 
     

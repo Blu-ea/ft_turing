@@ -35,7 +35,7 @@ let rec has_duplicates (str_list : string list) =
     Check if all elements of a list are present in a second list
     Return true if all elements are present of list1 are present in list2, false otherwise
 *)
-let list_in_list (needles : string list) (haystack : string list) =
+let list_in_list (needles: 'a list) (haystack: 'a list) =
     List.for_all (fun needle -> List.mem needle haystack) needles
 
 (*
