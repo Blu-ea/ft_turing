@@ -32,8 +32,8 @@
     ],
 
     "to_end_HALT" : [
-      {"read": "1", "write": "1", "action": "RIGHT", "to_state": "to_end"},
-      {"read": "0", "write": "0", "action": "RIGHT", "to_state": "to_end"},
+      {"read": "1", "write": "1", "action": "RIGHT", "to_state": "to_end_HALT"},
+      {"read": "0", "write": "0", "action": "RIGHT", "to_state": "to_end_HALT"},
       {"read": ".", "write": "n", "action": "LEFT", "to_state": "HALT"}
     ]
   }
