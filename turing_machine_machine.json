@@ -1,0 +1,11 @@
+{
+  "name" : "turing_machine_machine",
+  "alphabet": [ "."],
+  "blank" : ".",
+  "states" : [ "HALT" ],
+  "initial" : "",
+  "finals" : [ "HALT" ],
+  "transitions" : {
+    
+  }
+}

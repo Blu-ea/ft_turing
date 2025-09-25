@@ -62,3 +62,44 @@ The json must contain the following;
   }
 }
 ```
+
+------
+
+### Turing machime machine for unary_add.json
+
+List of states needed (6) :
+ - ScanRight
+ - ScanPull
+ - Subone
+ - Complete
+ - Addone
+ - Skip
+
+We can put the whole Instruction in `[]` to know if we are in them  
+We can define the cursor as char right after `]`
+
+so a possible tape could look like this : `11[<All the Instruction>]+1111=`
+
+#### Specification
+
+ - A `L` and `R` could define if we go `Left` or `Right`
+ - We can put a `#` to the current state
+ - We can split states with `,`
+ - We can define a transition such as `1.SR` for `read 1 -> write 1 -> goto Skip -> Right`
+ - We can have `<#| ><StateChar><Transition>,<Transition>`
+ - So a full rull could `[#A..CA,+1sR| s.+SR| C..CR,+.HR]` could translate for 
+ ```json
+  "complete": [
+    { "read" : ".", "to_state": "complete", "write": ".", "action": "LEFT"},
+    { "read" : "+", "to_state": "HALT" , "write": ".", "action": "LEFT"}
+  ],
+
+  "addone": [
+    { "read" : ".", "to_state": "addone", "write": ".", "action": "LEFT"},
+    { "read" : "+", "to_state": "skip" , "write": "1", "action": "RIGHT"}
+  ],
+
+  "skip": [
+    { "read" : ".", "to_state": "subone" , "write": "+", "action": "RIGHT"}
+```
+With `addone` being the current state  
