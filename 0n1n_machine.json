@@ -1,0 +1,40 @@
+{
+  "name" : "0n1n Machine",
+  "alphabet": [ "1", "0", ".", "y", "n" ],
+  "blank" : ".",
+  "states" : [ "check_start", "check_end", "to_end", "to_start", "to_end_HALT", "HALT" ],
+  "initial" : "check_start",
+  "finals" : [ "HALT" ],
+  "transitions" : {
+
+    "check_start" : [
+      {"read": ".", "write": "y", "action": "RIGHT", "to_state": "HALT"},
+      {"read": "1", "write": "1", "action": "RIGHT", "to_state": "to_end_HALT"},
+      {"read": "0", "write": ".", "action": "RIGHT", "to_state": "to_end"}
+    ],
+
+    "check_end" : [
+      {"read": ".", "write": "n", "action": "RIGHT", "to_state": "HALT"},
+      {"read": "1", "write": ".", "action": "LEFT", "to_state": "to_start"},
+      {"read": "0", "write": "n", "action": "RIGHT", "to_state": "HALT"}
+    ],
+
+    "to_end" : [
+      {"read": "1", "write": "1", "action": "RIGHT", "to_state": "to_end"},
+      {"read": "0", "write": "0", "action": "RIGHT", "to_state": "to_end"},
+      {"read": ".", "write": ".", "action": "LEFT", "to_state": "check_end"}
+    ],
+
+    "to_start" : [
+      {"read": "1", "write": "1", "action": "LEFT", "to_state": "to_start"},
+      {"read": "0", "write": "0", "action": "LEFT", "to_state": "to_start"},
+      {"read": ".", "write": ".", "action": "RIGHT", "to_state": "check_start"}
+    ],
+
+    "to_end_HALT" : [
+      {"read": "1", "write": "1", "action": "RIGHT", "to_state": "to_end_HALT"},
+      {"read": "0", "write": "0", "action": "RIGHT", "to_state": "to_end_HALT"},
+      {"read": ".", "write": "n", "action": "LEFT", "to_state": "HALT"}
+    ]
+  }
+}
