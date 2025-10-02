@@ -81,7 +81,7 @@ let rec run_transition_loop (program : Program.t) (tape : string) (head : int) (
         match get_transition_for_symbol (Transitions.get current_state program.transitions) (String.get tape head) with
         | None -> Error ("No valid transition found for char <" ^ String.make 1 tape.[head] ^ "> with state " ^ current_state)
         | Some transition ->
-            print_centered_tape_with_head tape head (Program.blank program);
+            print_tape_with_head tape head;
             print_char ' ';
             Transition.print_info current_state transition;
             match run_transition transition tape head with
