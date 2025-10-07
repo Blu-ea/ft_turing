@@ -460,10 +460,6 @@
       {"read" : "=", "to_state": "alphabet_go_next_states", "write": "=", "action": "LEFT"}
     ],
 
-
-
-
-
     "alphabet_tape_start" : [
       {"read" : "]", "to_state": "alaphabet_check_symbol", "write": "]", "action": "RIGHT"},
       {"read" : ".", "to_state": "alphabet_tape_start", "write": ".", "action": "RIGHT"},
@@ -751,10 +747,6 @@
       {"read" : "=", "to_state": "alphabet_tape_end", "write": "=", "action": "LEFT"}
     ],
 
-
-
-
-
     "alphabet_erase" : [
       {"read" : "{", "to_state": "scan_start", "write": ".", "action": "RIGHT"},
       {"read" : ".", "to_state": "alphabet_erase", "write": ".", "action": "LEFT"},
@@ -764,7 +756,6 @@
       {"read" : "-", "to_state": "alphabet_erase", "write": ".", "action": "LEFT"},
       {"read" : "=", "to_state": "alphabet_erase", "write": ".", "action": "LEFT"}
     ],
-
 
     "scan_start" : [
       {"read" : "]", "to_state": "find_current_state", "write": "]", "action": "RIGHT"},
