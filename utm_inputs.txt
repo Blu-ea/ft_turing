@@ -1,0 +1,9 @@
+Read symbol order in a transition
+[.,=,-,+,1,0:]
+
+unary sub example :
+[.L+,,,,,0R.!.L.,,,,,.R+:.R.,,,,,.R+:,,,,,0L--:]000.00
+[.L+,,,,1R.,!.L.,,,,.R+,:.R.,,,,.R+,:,,,,1L--,:]111.11
+
+unary add example :
+{.1}[,,,1R+,1R.,!,.L+,,,1R.,:,,,,.R.,:]11+11=
